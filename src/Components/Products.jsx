@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import Products_API_Data from "./Products-API-Data";
 import Product_Card from "./Product-Card";
 import Filters from "./Filters";
+import "../App.css";
 
 const Products = () => {
 	// State management
@@ -120,57 +121,6 @@ const Products = () => {
 			});
 		};
 	}, [filterData]); // Re-run when filter data changes
-
-	// useEffect(() => {
-	// 	if (filterValue) {
-	// 		const { value } = filterValue;
-	// 		let filteredArr;
-	// 		// if (filterBy === "category") {
-	// 			filteredArr = products.filter((ele) => ele.category === value);
-	// 		// }
-	// 		setFilterData(filteredArr)
-	// 	} else {
-	// 		setFilterData(products)
-	// 	}
-	// }, [filterValue]);
-
-	// useEffect(() => {
-	// 	if (filterPriceValue) {
-	// 		const { value } = filterPriceValue;
-	// 		let filteredArr = [];
-	// 		if (filterValue) {
-	// 			if (value === '< 100') {
-	// 				filteredArr = filterValue.filter(el => el.price < 100);
-	// 			} else if (value === '> 100') {
-	// 				filteredArr = filterValue.filter(el => el.price > 100);
-	// 			} else if (value === '>= 500') {
-	// 				filteredArr = filterValue.filter(el => el.price >= 500);
-	// 			}
-	// 		} else {
-
-	// 			if (value === '< 100') {
-	// 				filteredArr = products.filter(el => el.price < 100);
-	// 			} else if (value === '> 100') {
-	// 				filteredArr = products.filter(el => el.price > 100);
-	// 			} else if (value === '>= 500') {
-	// 				filteredArr = products.filter(el => el.price >= 500);
-	// 			}
-	// 		}
-	// 		// if (filterBy === "category") {
-	// 			// filteredArr = products.filter((ele) => ele.category === value);
-	// 			// else if (filterBy === "price") {
-	// 				// else
-	// 				//  {  // default
-	// 				// 	filteredArr = [...products];
-	// 				// }
-	// 		// }
-	// 		setFilterData(filteredArr)
-	// 	} else {
-	// 		setFilterData(products)
-	// 	}
-	// }, [filterPriceValue]);
-
-	// console.log();
 
 	return (
 		<div className="products bg-gray sec-height" role="main">

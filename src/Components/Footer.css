@@ -2,7 +2,7 @@
 	background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
 	color: var(--c-white);
 	padding: 4rem 0 2rem;
-	margin-top: 4rem;
+	margin-top: 0;
 	position: relative;
 	overflow: hidden;
 	box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
