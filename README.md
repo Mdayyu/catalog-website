@@ -6,16 +6,17 @@ A responsive React.js e-commerce product catalog featuring advanced filtering, s
 
 ## 💻 Used Technologies
 
--   **Frontend Framework:** React.js 18+
--   **Styling:** CSS3 with Custom Properties & Flexbox/Grid
--   **Icons:** Boxicons
--   **UI Components:** Bootstrap 5
--   **State Management:** React Context API
--   **Data Fetching:** Fetch API
--   **Animations:** CSS Transitions & Intersection Observer
--   **Build Tool:** Vite
--   **Notifications:** React-Toastify
--   **Accessibility:** ARIA attributes & Semantic HTML
+- **React.js 18+** → Component-based frontend framework for dynamic UIs.  
+- **CSS3 (Custom Properties, Flexbox, Grid)** → Responsive, maintainable, and modern styling.  
+- **Boxicons** → Lightweight icon set for consistent visuals.  
+- **Bootstrap 5** → UI components and responsive grid system.  
+- **React Context API** → Simplified state management across the app.  
+- **Fetch API** → Native browser API for data fetching.  
+- **CSS Transitions & Intersection Observer** → Smooth animations and scroll-based effects.  
+- **Vite** → Fast build tool and development server.  
+- **React-Toastify** → Elegant toast notifications for user feedback.  
+- **ARIA Attributes & Semantic HTML** → Ensures accessibility and inclusive design.  
+
 
 ---
 
