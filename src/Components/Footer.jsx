@@ -2,77 +2,51 @@ import React from "react";
 import "./Footer.css";
 
 const Footer = () => {
-	const currentYear = new Date().getFullYear();
+    const currentYear = new Date().getFullYear();
+    const whatsappNumber = "6287752898712"; 
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Halo%20Kak%20Nyoman,%20saya%20tertarik%20ingin%20memesan%20tanaman%20buah.`;
+    const mapsUrl = "https://maps.app.goo.gl/EBbNPExX26fHtQRL7";
 
-	return (
-		<footer id="contact" className="footer">
-			<div className="container">
-				<div className="footer-content">
-					{/* Copyright Section */}
-					<div className="footer-section">
-						<div className="copyright">
-							<p>
-								© {currentYear} Ahmed Maher. All rights
-								reserved.
-							</p>
-							<p className="portfolio-link">
-								Portfolio:{" "}
-								<a
-									href="https://ahmedmaher-portfolio.vercel.app/"
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									ahmedmaher-portfolio.vercel.app
-								</a>
-							</p>
-						</div>
-					</div>
+    return (
+        <footer id="contact" className="footer">
+            <div className="container footer-container">
+                <div className="footer-info">
+                    <h3 className="footer-brand">BibitPakNyoman</h3>
+                    <p className="footer-desc">
+                        Solusi beli bibit buah & kompos lengkap dengan layanan antar, tanam, dan garansi rawat sampai berbuah.
+                    </p>
+                    
+                    {/* Bagian Alamat Lokasi */}
+                    <div className="footer-address">
+                        <a 
+                            href={mapsUrl} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="footer-address-link"
+                        >
+                            <i className="bx bx-map"></i>
+                            <span>Lihat Lokasi Kebun di Google Maps</span>
+                        </a>
+                    </div>
+                </div>
 
-					{/* Contact Links Section */}
-					<div className="footer-section">
-						<h4>Connect With Me</h4>
-						<div className="social-links">
-							<a
-								href="https://ahmedmaher-portfolio.vercel.app/"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="social-link portfolio"
-							>
-								<i className="bx bx-globe"></i>
-								<span>Portfolio</span>
-							</a>
+                <div className="footer-action">
+                    <a
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="footer-wa-btn"
+                    >
+                        <i className="bx bxl-whatsapp"></i> Chat WhatsApp
+                    </a>
+                </div>
+            </div>
 
-							<a
-								href="https://www.linkedin.com/in/ahmed-maher-algohary"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="social-link linkedin"
-							>
-								<i className="bx bxl-linkedin"></i>
-								<span>LinkedIn</span>
-							</a>
-
-							<a
-								href="https://github.com/Ahmed-Maher77"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="social-link github"
-							>
-								<i className="bx bxl-github"></i>
-								<span>GitHub</span>
-							</a>
-						</div>
-					</div>
-				</div>
-
-				<div className="footer-bottom">
-					<p>
-						Built with ❤️ using React.js and modern web technologies
-					</p>
-				</div>
-			</div>
-		</footer>
-	);
+            <div className="footer-bottom">
+                <p>© {currentYear} BibitPakNyoman. All rights reserved.</p>
+            </div>
+        </footer>
+    );
 };
 
 export default Footer;

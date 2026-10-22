@@ -2,7 +2,7 @@
 	min-height: 100vh;
 	display: flex;
 	align-items: center;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #667eea 0%, #91ebd4 100%);
 	position: relative;
 	overflow: hidden;
 	padding-top: 100px;
@@ -199,7 +199,7 @@
 .card-text p {
 	margin: 0;
 	font-size: 0.9rem;
-	color: #6b7280;
+	color: #4b70b9;
 }
 
 .hero-gradient {

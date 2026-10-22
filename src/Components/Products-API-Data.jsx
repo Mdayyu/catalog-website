@@ -1,23 +1,13 @@
 import { useEffect } from "react";
+import { productsData } from "../data/productsData"; // Sesuaikan path file data kamu
 
 const Products_API_Data = ({ onDataFetch }) => {
-	useEffect(() => {
-		(async function () {
-			try {
-				const res = await fetch("https://fakestoreapi.com/products");
-				if (!res.ok) {
-					throw new Error(`HTTP error! status: ${res.status}`);
-				}
-				const jsonRes = await res.json();
-				console.log("API Response:", jsonRes);
-				onDataFetch(jsonRes);
-			} catch (error) {
-				console.error("Error fetching products:", error);
-				onDataFetch([]);
-			}
-		})();
-	}, []);
-	return <div></div>;
+  useEffect(() => {
+    // Langsung kirimkan data lokal ke parent component
+    onDataFetch(productsData);
+  }, [onDataFetch]);
+
+  return null; // Tidak perlu render div kosong jika hanya tempat mengurus data
 };
 
 export default Products_API_Data;

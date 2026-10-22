@@ -1,106 +1,81 @@
+import React, { useState } from "react";
 import "./Products.css";
 import "boxicons/css/boxicons.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Popup from "./Popup";
-import { useEffect, useState } from "react";
-import useHandleAddToCart from "../utils/custom_hooks/useHandleAddToCart";
 
 const Product_Card = ({
-	data: { title, price, description, category, image, rating },
-	classFlex,
+    data = {},
+    classFlex,
 }) => {
-	const [larger500, setLarger500] = useState(false);
-	const { addToCart } = useHandleAddToCart();
+    // State untuk mengontrol tampil/tidaknya popup detail produk
+    const [showPopup, setShowPopup] = useState(false);
 
-	// Handle responsive behavior
-	useEffect(() => {
-		const handleScreen = () => {
-			window.innerWidth > 500 ? setLarger500(true) : setLarger500(false);
-		};
-		window.addEventListener("resize", handleScreen);
-		return () => window.removeEventListener("resize", handleScreen);
-	}, []);
+    // Ambil data dengan aman (menggunakan images sebagai array)
+    const { name, price, description, category, images, image } = data;
+    
+    // Fallback jika data lama masih menggunakan 'image' tunggal
+    const productImages = images || (image ? [image] : []);
+    const mainImage = productImages[0] || "https://via.placeholder.com/200?text=Bibit+Tanaman";
 
-	// Add product to cart
-	const handleAddToCartClick = () => {
-		addToCart({ title, price, description, category, image, rating });
-	};
+    return (
+        <article
+            className={`product-card card ${classFlex} position-relative shadow-sm`}
+            style={{ width: "260px", minHeight: "410px", overflow: "hidden" }}
+            role="article"
+        >
+            {/* Foto Produk Utama di Card */}
+            <figure className="mb-2 text-center m-0" style={{ height: "240px", overflow: "hidden" }}>
+                <img
+                    className="card-img-top w-100 h-100"
+                    style={{ objectFit: "cover" }}
+                    src={mainImage}
+                    alt={`Gambar produk: ${name}`}
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://via.placeholder.com/200?text=Bibit+Tanaman";
+                    }}
+                    loading="lazy"
+                />
+            </figure>
 
-	return (
-		<article
-			className={`product-card card ${classFlex} position-relative`}
-			role="article"
-		>
-			<figure className="pt-user-2 px-5 mb-1 text-center">
-				<img
-					className="card-img-top dimension-200"
-					src={image}
-					alt={`Product image: ${title}`}
-					loading="lazy"
-				/>
-			</figure>
-			<div className="card-body">
-				<h3 className="card-title text-over title-over fs-101 mb-1">
-					{title}
-				</h3>
-				{larger500 && (
-					<p className="card-text text-over mb-1">{description}</p>
-				)}
-				<p
-					className="category fw-bold d-flex align-items-center gap-2"
-					aria-label={`Category: ${category}`}
-				>
-					<i className="bx bxs-bookmarks" aria-hidden="true"></i>{" "}
-					{category}
-				</p>
-				<div className="price d-flex justify-content-between pt-2">
-					<span className="fw-bold" aria-label={`Price: $${price}`}>
-						{price}$
-					</span>
-					<span aria-label={`Rating: ${rating.rate} stars`}>
-						Rate: {rating.rate}
-					</span>
-				</div>
+            {/* Informasi Utama */}
+            <div className="card-body d-flex flex-column justify-content-between p-3">
+                <div className="mb-3">
+                    <h3 className="card-title title-over fs-6 fw-bold mb-2 text-dark text-capitalize text-truncate">
+                        {name}
+                    </h3>
+                </div>
 
-				{/* Action Buttons */}
-				<div className="btns d-flex justify-content-between pt-3 flex-column flex-sm-row gap-2 flex-wrap">
-					<button
-						className="btn btn-outline-primary rounded py-2 px-3 d-flex align-items-center gap-2  justify-content-center w-100"
-						data-bs-toggle="modal"
-						data-bs-target="#staticBackdrop"
-						aria-label={`View details for ${title}`}
-					>
-						Show Details{" "}
-						<i className="bx bxs-show fs-5" aria-hidden="true"></i>
-					</button>
+                {/* Tombol Aksi */}
+                <div className="pt-2">
+                    <button
+                        type="button"
+                        className="btn btn-outline-success rounded-pill py-2 px-3 d-flex align-items-center gap-2 justify-content-center w-100 fw-semibold"
+                        onClick={() => setShowPopup(true)}
+                        aria-label={`Lihat detail untuk ${name}`}
+                    >
+                        Lihat Detail{" "}
+                        <i className="bx bxs-show fs-5" aria-hidden="true"></i>
+                    </button>
 
-					{/* Product details modal */}
-					<Popup
-						data={{
-							title,
-							price,
-							description,
-							category,
-							image,
-							rating,
-						}}
-					/>
-					<button
-						className="btn btn-success rounded py-2 px-4 d-flex align-items-center gap-2  justify-content-center w-100"
-						onClick={handleAddToCartClick}
-						aria-label={`Add ${title} to cart`}
-					>
-						Buy Now{" "}
-						<i
-							className="bx bx-cart-add fs-5"
-							aria-hidden="true"
-						></i>
-					</button>
-				</div>
-			</div>
-		</article>
-	);
+                    {/* Popup Modal Detail Produk */}
+                    {showPopup && (
+                        <Popup
+                            data={{
+                                title: name,
+                                price,
+                                description,
+                                category,
+                                images: productImages, // Kirim array images ke popup
+                            }}
+                            onClose={() => setShowPopup(false)}
+                        />
+                    )}
+                </div>
+            </div>
+        </article>
+    );
 };
 
 export default Product_Card;

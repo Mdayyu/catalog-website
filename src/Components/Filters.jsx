@@ -1,92 +1,75 @@
+import React from "react";
 import SelectBox from "./SelectBox/SelectBox";
 
-// Price filter options
-const priceOptions = [
-	{ option: "Select a Range", value: "default" },
-	{ option: "< 100", value: "< 100" },
-	{ option: "> 100", value: "> 100" },
-	{ option: ">= 500", value: ">= 500" },
-];
+const Filters = ({
+    data = [],
+    filterByCategory,
+    onSearchChange,
+    searchQuery = "",
+}) => {
+    if (!data) {
+        return null;
+    }
 
-const Filters = ({ data, filterByCategory, filterByPrice }) => {
-	if (!data) {
-		return null;
-	}
+    // Mengambil daftar kategori unik secara dinamis dari data
+    const uniqueCategories = Array.from(
+        new Set(data.map((obj) => obj.category).filter(Boolean))
+    );
 
-	// Get unique categories from data
-	const uniqueCategories = Array.from(
-		new Set(data.map((obj) => obj.category))
-	);
+    // Opsi pilihan kategori dalam Bahasa Indonesia
+    const categoryOptions = [
+        { option: "Semua Kategori", value: "default" },
+        ...uniqueCategories.map((category) => ({
+            option: category,
+            value: category,
+        })),
+    ];
 
-	// Create dynamic category options
-	const categoryOptions = [
-		{ option: "Select a Category", value: "default" },
-		...uniqueCategories.map((category) => ({
-			option: category,
-			value: category,
-		})),
-	];
+    return (
+        <aside className="filters py-3 bg-white shadow-sm rounded-4 mb-4" role="complementary" aria-label="Filter produk">
+            <div className="container d-flex flex-column flex-md-row gap-3 justify-content-between align-items-center">
+               
 
-	return (
-		<aside className="filters" role="complementary" aria-label="Product filters">
-			<div className="container d-flex flex-row gap-2 justify-content-between align-items-center">
-				<h3 className="mb-0">Filter Products By:</h3>
-				<nav className="d-flex flex-row gap-3 align-items-center" aria-label="Filter options">
-					<div className="d-flex gap-2 align-items-center">
-						<label htmlFor="category-filter">Category:</label>
-						<SelectBox
-							id="category-filter"
-							options={categoryOptions}
-							onChange={(e) => filterByCategory(e.target.value)}
-							aria-label="Filter by category"
-						/>
-					</div>
-					<div className="d-flex gap-2 align-items-center">
-						<label htmlFor="price-filter">Price:</label>
-						<SelectBox
-							id="price-filter"
-							options={priceOptions}
-							onChange={(e) => filterByPrice(e.target.value)}
-							aria-label="Filter by price"
-						/>
-					</div>
-				</nav>
-			</div>
-		</aside>
-	);
+                <nav className="d-flex flex-column flex-sm-row gap-3 align-items-center w-100 w-md-auto" aria-label="Opsi filter">
+                    
+                    {/* 1. Input Pencarian Nama Tanaman */}
+                    <div className="d-flex gap-2 align-items-center w-100 w-sm-auto">
+                        <label htmlFor="search-input" className="fw-semibold text-secondary text-nowrap mb-0">
+                            Cari Nama:
+                        </label>
+                        <div className="input-group input-group-sm">
+                            <span className="input-group-text bg-white border-end-0">
+                                <i className="bx bx-search text-success"></i>
+                            </span>
+                            <input
+                                id="search-input"
+                                type="text"
+                                className="form-control border-start-0 shadow-none"
+                                placeholder="Contoh: Mangga, Jambu..."
+                                value={searchQuery}
+                                onChange={(e) => onSearchChange(e.target.value)}
+                                aria-label="Cari nama tanaman"
+                            />
+                        </div>
+                    </div>
+
+                    {/* 2. Filter Kategori */}
+                    <div className="d-flex gap-2 align-items-center w-100 w-sm-auto">
+                        <label htmlFor="category-filter" className="fw-semibold text-secondary text-nowrap mb-0">
+                            Kategori:
+                        </label>
+                        <SelectBox
+                            id="category-filter"
+                            options={categoryOptions}
+                            onChange={(e) => filterByCategory(e.target.value)}
+                            aria-label="Filter berdasarkan kategori"
+                        />
+                    </div>
+
+                </nav>
+            </div>
+        </aside>
+    );
 };
 
 export default Filters;
-
-// const Filters = ({ data }) => {
-// 	// Ensure data is defined and not null
-// 	if (!data || !Array.isArray(data)) {
-// 		return null; // Or return a loading indicator or fallback UI
-// 	}
-
-// 	// Extract unique categories
-// 	const uniqueCategories = Array.from(new Set(data.map(obj => obj.category)));
-
-// 	return (
-// 		<div className="filters">
-// 			<div className="container">
-// 				<h3>Filter Products By:</h3>
-// 				<nav>
-// 					<div>
-// 						<label htmlFor="category">Category</label>
-// 						<select id="category">
-// 							<option value="">Select a category</option>
-// 							{uniqueCategories.map((category, i) => (
-// 								<option  value={category}>
-// 									{category}
-// 								</option>
-// 							))}
-// 						</select>
-// 					</div>
-// 				</nav>
-// 			</div>
-// 		</div>
-// 	);
-// };
-
-// export default Filters;

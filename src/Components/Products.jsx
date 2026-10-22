@@ -1,141 +1,118 @@
 import { useEffect, useState, useCallback, useRef } from "react";
+import Header from "./LandingPage/Header"; 
 import Products_API_Data from "./Products-API-Data";
 import Product_Card from "./Product-Card";
 import Filters from "./Filters";
 import "../App.css";
 
 const Products = () => {
-	// State management
-	const [products, setProducts] = useState([]); // All products from API
-	const [filterCategoryValue, setFilterCategoryValue] = useState(null);
-	const [filterPriceValue, setFilterPriceValue] = useState(null);
-	const [filterData, setFilterData] = useState([]); // Filtered products to display
-	const [isLoading, setIsLoading] = useState(true);
-	const productsContainerRef = useRef(null);
+    // State management
+    const [products, setProducts] = useState([]); 
+    const [searchQuery, setSearchQuery] = useState(""); // State pencarian
+    const [filterCategoryValue, setFilterCategoryValue] = useState(null); // State kategori
+    const [filterData, setFilterData] = useState([]); 
+    const [isLoading, setIsLoading] = useState(true);
+    const productsContainerRef = useRef(null);
 
-	// Handle API data response
-	const handleApiData = useCallback((jsonRes) => {
-		console.log("Products received:", jsonRes);
-		setProducts(jsonRes);
-		setFilterData(jsonRes);
-		setIsLoading(false);
-	}, []);
+    // Fungsi handle explore untuk scroll ke produk
+    const handleExploreClick = () => {
+        if (productsContainerRef.current) {
+            productsContainerRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    };
 
-	// Filter handlers
-	const filterByCategory = (value) => {
-		setFilterCategoryValue(value === "default" ? null : value);
-	};
+    // Handle data dari API
+    const handleApiData = useCallback((jsonRes) => {
+        setProducts(jsonRes);
+        setFilterData(jsonRes);
+        setIsLoading(false);
+    }, []);
 
-	const filterByPrice = (value) => {
-		setFilterPriceValue(value === "default" ? null : value);
-	};
+    // Handler filter kategori
+    const filterByCategory = (value) => {
+        setFilterCategoryValue(value === "default" ? null : value);
+    };
 
-	// Render products with loading/empty states
-	const showProducts = () => {
-		console.log(
-			"showProducts called - isLoading:",
-			isLoading,
-			"products:",
-			products.length,
-			"filterData:",
-			filterData.length
-		);
+    // Handler pencarian nama tanaman
+    const handleSearchChange = (value) => {
+        setSearchQuery(value);
+    };
 
-		if (isLoading) {
-			return (
-				<div className="d-flex justify-content-center align-items-center w-100 h-100">
-					<div
-						className="loading-state"
-						role="status"
-						aria-live="polite"
-					>
-						Loading amazing products...
-					</div>
-				</div>
-			);
-		}
+    // Logika Gabungan Filter (Kategori + Nama Tanaman)
+    useEffect(() => {
+        let filteredArr = [...products];
 
-		const displayedProducts = filterData.length > 0 ? filterData : products;
+        // 1. Filter Kategori
+        if (filterCategoryValue) {
+            filteredArr = filteredArr.filter(
+                (el) => el.category === filterCategoryValue
+            );
+        }
 
-		if (displayedProducts.length === 0) {
-			return (
-				<div className="empty-state" role="status" aria-live="polite">
-					No products found. Try adjusting your filters!
-				</div>
-			);
-		}
+        // 2. Filter Pencarian Nama Tanaman
+        if (searchQuery.trim() !== "") {
+            filteredArr = filteredArr.filter((el) =>
+                el.name?.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        }
 
-		return displayedProducts.map((obj) => (
-			<Product_Card key={obj.id} data={obj} classFlex="product-flex" />
-		));
-	};
+        setFilterData(filteredArr);
+    }, [filterCategoryValue, searchQuery, products]);
 
-	// Apply filters to products
-	useEffect(() => {
-		let filteredArr = [...products];
+    // Render daftar produk
+    const showProducts = () => {
+        if (isLoading) {
+            return (
+                <div className="d-flex justify-content-center align-items-center w-100 py-5">
+                    <div className="loading-state text-success fw-semibold" role="status">
+                        🌱 Memuat koleksi tanaman terbaik...
+                    </div>
+                </div>
+            );
+        }
 
-		// Filter by category
-		if (filterCategoryValue) {
-			filteredArr = products.filter(
-				(el) => el.category === filterCategoryValue
-			);
-		}
+        if (filterData.length === 0) {
+            return (
+                <div className="empty-state text-center py-5 text-muted w-100" role="status">
+                    <h5>Tanaman tidak ditemukan.</h5>
+                    <p className="small">Coba ketik nama lain atau pilih kategori lainnya!</p>
+                </div>
+            );
+        }
 
-		// Filter by price range
-		if (filterPriceValue) {
-			if (filterPriceValue === "< 100") {
-				filteredArr = filteredArr.filter((el) => el.price < 100);
-			} else if (filterPriceValue === "> 100") {
-				filteredArr = filteredArr.filter((el) => el.price > 100);
-			} else if (filterPriceValue === ">= 500") {
-				filteredArr = filteredArr.filter((el) => el.price >= 500);
-			}
-		}
-		setFilterData(filteredArr);
-	}, [filterCategoryValue, filterPriceValue, products]);
+        return filterData.map((obj) => (
+            <Product_Card key={obj.id || obj.name} data={obj} classFlex="product-flex" />
+        ));
+    };
 
-	// Scroll animation for product cards
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						entry.target.classList.add("animate");
-					}
-				});
-			},
-			{
-				threshold: 0.1,
-				rootMargin: "0px 0px -20px 0px",
-			}
-		);
+    return (
+        <div id="products" className="products bg-gray sec-height py-4" role="main">
+            
+            {/* Render komponen Hero / Banner */}
+            {/* <Header onExploreProducts={handleExploreClick} /> */}
 
-		const productCards = document.querySelectorAll(".product-card");
-		productCards.forEach((card) => {
-			observer.observe(card);
-		});
+            <div className="container mt-4">
+                {/* Komponen Filter & Pencarian */}
+                <Filters
+                    data={products}
+                    filterByCategory={filterByCategory}
+                    searchQuery={searchQuery}
+                    onSearchChange={handleSearchChange}
+                />
+            </div>
 
-		return () => {
-			productCards.forEach((card) => {
-				observer.unobserve(card);
-			});
-		};
-	}, [filterData]); // Re-run when filter data changes
+            <Products_API_Data onDataFetch={handleApiData} />
 
-	return (
-		<div className="products bg-gray sec-height" role="main">
-			<Filters
-				data={products}
-				filterByCategory={filterByCategory}
-				filterByPrice={filterByPrice}
-			/>
-			<Products_API_Data onDataFetch={handleApiData} />
-			<section aria-label="Products grid">
-				<div className="container py-4 d-flex flex-wrap product-parent-flex">
-					{showProducts()}
-				</div>
-			</section>
-		</div>
-	);
+            <section aria-label="Products grid">
+                <div 
+                    ref={productsContainerRef}
+                    className="container py-2 d-flex flex-wrap product-parent-flex justify-content-center gap-4"
+                >
+                    {showProducts()}
+                </div>
+            </section>
+        </div>
+    );
 };
+
 export default Products;

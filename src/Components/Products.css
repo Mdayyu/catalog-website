@@ -1,486 +1,170 @@
-/* Modern card styles */
-.product-card {
-	background: var(--c-white);
-	border-radius: 16px;
-	border: 1px solid var(--c-border);
-	box-shadow: var(--shadow-md);
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	overflow: hidden;
-	position: relative;
+/* OVERLAY MODAL SELALU DI TENGAH LAYAR VIEWPORT */
+.popup-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background-color: rgba(0, 0, 0, 0.65) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 99999 !important; /* Nilai z-index sangat tinggi agar selalu di atas */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px;
+  margin: 0 !important;
+  box-sizing: border-box;
 }
 
-.product-card:hover {
-	transform: translateY(-4px);
-	box-shadow: var(--shadow-xl);
-	border-color: var(--c-primary);
+/* CONTAINER POPUP MODAL */
+.popup-card-container {
+  display: flex;
+  background: #ffffff;
+  width: 100%;
+  max-width: 780px;
+  max-height: 85vh;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  margin: auto;
+  box-sizing: border-box;
 }
 
-.product-card::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 4px;
-	background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
-	opacity: 0;
-	transition: opacity 0.3s ease;
+/* BAGIAN GAMBAR KIRI FIX SIZE */
+.popup-left-side {
+  width: 45%;
+  min-width: 280px;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
-.product-card:hover::before {
-	opacity: 1;
+.popup-main-img-wrapper {
+  width: 100%;
+  height: 280px;
+  background: #e9ecef;
 }
 
-/* Product card animations */
-.product-card {
-	opacity: 0;
-	transform: translateY(20px);
-	transition: all 0.5s ease;
+.popup-main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.product-card.animate {
-	opacity: 1;
-	transform: translateY(0);
-}
-.dimension-200 {
-	max-width: 230px !important;
-	height: 200px !important;
-	object-fit: contain;
-	border-radius: 12px;
-	transition: transform 0.3s ease;
-}
-
-.product-card:hover .dimension-200 {
-	transform: scale(1.05);
+/* THUMBNAIL FOTO SISI KIRI */
+.popup-thumbnails-wrapper {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 12px;
+  background: #f1f3f5;
+  border-top: 1px solid #dee2e6;
+  overflow-x: auto;
 }
 
-.text-over {
-	display: -webkit-box;
-	text-overflow: ellipsis;
-	height: 1.5em;
-	overflow: hidden;
-	-webkit-line-clamp: 1;
-	line-clamp: 1;
-	-webkit-box-orient: vertical;
-	color: var(--c-text-secondary);
-	font-weight: 500;
+.popup-thumb-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #ced4da;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0.7;
+  flex-shrink: 0;
 }
 
-.title-over {
-	height: 1.2em !important;
-	color: var(--c-text-primary);
-	font-weight: 600;
-	font-size: 1.1rem;
-}
-.product-card .category {
-	position: absolute;
-	left: 12px;
-	top: 12px;
-	background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
-	color: var(--c-white);
-	padding: 6px 12px;
-	border-radius: 20px;
-	font-size: 0.8rem;
-	font-weight: 600;
-	box-shadow: var(--shadow-md);
-	backdrop-filter: blur(10px);
+.popup-thumb-btn.active {
+  border-color: #198754;
+  opacity: 1;
 }
 
-.pt-user-2 {
-	padding-top: 2.2rem !important;
+.popup-thumb-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.fs-101 {
-	font-size: 1.15rem !important;
+/* BAGIAN TEKS KANAN FIX SIZE */
+.popup-right-side {
+  width: 55%;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+  overflow-y: auto;
 }
 
-/* Enhanced button styles */
-.btn {
-	border-radius: 12px;
-	font-weight: 600;
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	border: none;
-	position: relative;
-	overflow: hidden;
+/* Styling Tombol Close (X) di Pojok Kanan Atas */
+.popup-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  font-size: 28px;
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+  line-height: 1;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease-in-out;
 }
 
-.btn::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: -100%;
-	width: 100%;
-	height: 100%;
-	background: linear-gradient(
-		90deg,
-		transparent,
-		rgba(255, 255, 255, 0.2),
-		transparent
-	);
-	transition: left 0.5s;
+.popup-close-btn:hover {
+  color: #000;
+  background-color: rgba(0, 0, 0, 0.08);
 }
 
-.btn:hover::before {
-	left: 100%;
-}
 
-.btn-outline-primary {
-	border: 2px solid var(--c-primary);
-	color: var(--c-primary);
-	background: transparent;
-}
+/* =========================================
+   RESPONSIF KHUSUS MOBILE (Layar HP < 768px)
+   ========================================= */
+@media screen and (max-width: 768px) {
+  .popup-overlay {
+    padding: 12px !important;
+  }
 
-.btn-outline-primary:hover {
-	background: var(--c-primary);
-	color: var(--c-white);
-	transform: translateY(-2px);
-	box-shadow: var(--shadow-lg);
-}
+  .popup-card-container {
+    flex-direction: column !important; /* Ubah layout jadi ke bawah (vertikal) */
+    max-height: 90vh !important;
+    overflow-y: auto !important; /* Agar seluruh isi card bisa di-scroll di HP */
+  }
 
-.btn-success {
-	background: linear-gradient(135deg, var(--c-success), #059669);
-	color: var(--c-white);
-}
+  .popup-left-side {
+    width: 100% !important;
+    min-width: unset !important;
+  }
 
-.btn-success:hover {
-	background: linear-gradient(135deg, #059669, var(--c-success));
-	transform: translateY(-2px);
-	box-shadow: var(--shadow-lg);
-}
-.product-parent-flex {
-	gap: 16px;
-	padding: 2rem 0;
-}
+  .popup-main-img-wrapper {
+    height: 220px !important; /* Tinggi gambar disesuaikan agar pas di layar kecil */
+  }
 
-.product-flex {
-	flex-basis: 100%;
-}
+  .popup-right-side {
+    width: 100% !important;
+    padding: 20px !important;
+    overflow-y: visible !important; /* Mengikuti scroll utama container */
+  }
 
-/* Enhanced filters section */
-.filters {
-	background: rgba(255, 255, 255, 0.95);
-	backdrop-filter: blur(20px);
-	border-bottom: 1px solid var(--c-border);
-	box-shadow: var(--shadow-sm);
-	position: sticky;
-	top: 0;
-	z-index: 100;
-	padding: 0.75rem 0;
-	animation: slideDown 0.8s ease-out;
-}
-
-@keyframes slideDown {
-	from {
-		opacity: 0;
-		transform: translateY(-20px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-.filters .container {
-	align-items: center;
-}
-
-.filters h3 {
-	background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
-	font-weight: 700;
-	font-size: 1.1rem;
-	margin: 0;
-}
-
-/* Compact filter layout */
-.filters nav {
-	gap: 1rem !important;
-}
-
-.filters .d-flex {
-	gap: 0.5rem !important;
-	align-items: center;
-}
-
-.filters label {
-	font-size: 0.85rem !important;
-	font-weight: 600;
-	margin: 0 !important;
-	color: var(--c-text-secondary);
-	white-space: nowrap;
-}
-
-/* Compact select boxes */
-.filters .custom-select {
-	max-width: 170px;
-	min-width: 140px;
-}
-
-.filters .custom-select select {
-	padding: 0.5rem 2.5rem 0.5rem 0.75rem;
-	font-size: 0.8rem;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.filters .custom-select .icon {
-	right: 0.75rem;
-	font-size: 14px;
-}
-
-/* Responsive filter adjustments */
-@media (max-width: 768px) {
-	.filters {
-		padding: 0.5rem 0;
-	}
-
-	.filters .container {
-		flex-direction: column;
-		flex-wrap: wrap;
-		gap: 0.75rem;
-		align-items: stretch;
-	}
-
-	.filters h3 {
-		font-size: 1rem;
-		text-align: center;
-	}
-
-	.filters nav {
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.filters .d-flex {
-		justify-content: space-between;
-	}
-
-	.filters .custom-select {
-		max-width: 100%;
-		min-width: auto;
-		flex: 1;
-	}
-
-	.filters .custom-select select {
-		padding: 0.5rem 2.5rem 0.5rem 0.75rem;
-	}
-
-	.filters label {
-		min-width: 60px;
-	}
-}
-
-@media (max-width: 480px) {
-	.filters .container {
-		padding: 0 0.5rem;
-	}
-
-	.filters h3 {
-		font-size: 0.9rem;
-	}
-
-	.filters label {
-		font-size: 0.8rem !important;
-		min-width: 50px;
-	}
-
-	.filters .custom-select select {
-		padding: 0.4rem 2rem 0.4rem 0.5rem;
-		font-size: 0.75rem;
-	}
-
-	.filters .custom-select .icon {
-		right: 0.6rem;
-		font-size: 12px;
-	}
-}
-
-/* Loading and empty states */
-.loading-state,
-.empty-state {
-	text-align: center;
-	padding: 4rem 2rem;
-	color: var(--c-text-secondary);
-	font-size: 1.1rem;
-	font-weight: 500;
-}
-
-.loading-state::before {
-	content: "⏳";
-	font-size: 3rem;
-	display: block;
-	margin-bottom: 1rem;
-	animation: spin 1s linear infinite;
-}
-
-.empty-state::before {
-	content: "📦";
-	font-size: 3rem;
-	display: block;
-	margin-bottom: 1rem;
-}
-
-@keyframes spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
-}
-.pop-img {
-	height: 450px;
-	width: 90% !important;
-	max-width: 423px;
-	border-radius: 16px;
-	box-shadow: var(--shadow-lg);
-	transition: transform 0.3s ease;
-}
-
-.pop-img:hover {
-	transform: scale(1.02);
-}
-
-/* Enhanced modal styles */
-.modal-content {
-	border-radius: 20px;
-	border: none;
-	box-shadow: var(--shadow-xl);
-	overflow: hidden;
-}
-
-.modal-header {
-	background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
-	color: var(--c-white);
-	border-bottom: none;
-	padding: 1.5rem;
-}
-
-.modal-header h1 {
-	color: var(--c-white);
-	font-weight: 700;
-}
-
-.modal-body {
-	padding: 2rem;
-}
-
-.modal-footer {
-	border-top: 1px solid var(--c-border);
-	padding: 1.5rem;
-	background: var(--c-gray);
-}
-
-/* Enhanced table styles */
-.table {
-	border-radius: 12px;
-	overflow: hidden;
-	box-shadow: var(--shadow-md);
-	border: none;
-}
-
-.table td,
-.table th {
-	border: 1px solid var(--c-border);
-	padding: 1rem;
-	background: var(--c-white);
-}
-
-.table tr:nth-child(even) td {
-	background: var(--c-gray);
-}
-
-.table tr:hover td {
-	background: linear-gradient(
-		135deg,
-		rgba(102, 126, 234, 0.05),
-		rgba(118, 75, 162, 0.05)
-	);
-}
-
-/* Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) {
-	.text-over {
-		height: 1.4em;
-		-webkit-line-clamp: 1;
-		line-clamp: 1;
-	}
-}
-
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) {
-	.product-flex {
-		flex-basis: calc((100% / 2) - 8px);
-	}
-}
-
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-	.product-parent-flex {
-		gap: 20px;
-	}
-	.product-flex {
-		flex-basis: calc((100% / 2) - 10px);
-	}
-}
-/* Large devices (desktops, 1200px and up) */
-@media (min-width: 1200px) {
-	.product-flex {
-		flex-basis: calc((100% / 3) - 14px);
-	}
-}
-
-/* Large devices (desktops, 1400px and up) */
-@media (min-width: 1400px) {
-	.product-flex {
-		flex-basis: calc((100% / 4) - 18px);
-	}
-}
-
-/* Accessibility Enhancements */
-
-/* Focus styles for better accessibility */
-.btn:focus,
-.custom-select:focus,
-select:focus {
-	outline: 2px solid var(--c-primary);
-	outline-offset: 2px;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-	.product-card {
-		border: 2px solid var(--c-text-primary);
-	}
-
-	.btn {
-		border: 2px solid currentColor;
-	}
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-	.product-card,
-	.btn,
-	.custom-select,
-	.filters {
-		animation: none !important;
-		transition: none !important;
-	}
-}
-
-/* Screen reader only text */
-.sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border: 0;
+  .popup-close-btn {
+    top: 12px !important;
+    right: 12px !important;
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 24px !important;
+  }
 }
